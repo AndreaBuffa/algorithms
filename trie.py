@@ -15,13 +15,21 @@ class TrieNode:
             self.partialCounter += 1
             node.addLetter(word, index)
         else:
-            self.counter += 1
+            # curr word ends here
+            node.counter += 1
 
-    def hasChild(self):
-        return
 
     def getNumWords(self):
         return self.counter
+
+    def dump(self, stringBuilder):
+        if self.getNumWords():
+            # prints the word and occurrences
+            print "%d times for %s" % (self.getNumWords(), ''.join(stringBuilder))
+        for letter in sorted(self.children):
+            stringBuilder.append(letter)
+            self.children[letter].dump(stringBuilder)
+            stringBuilder.pop()
 
 class Trie:
     def __init__(self):
@@ -30,12 +38,13 @@ class Trie:
     def addWord(self, word):
         if len(word) == 0:
             return
+        print "adding %s" % (word)
         try:
             node = self.nodes[word[0]]
         except KeyError:
             node = TrieNode()
             self.nodes[word[0]] = node
-        if len(word) > 1
+        if len(word) > 1:
             node.addLetter(word, 1)
         else:
             node.counter += 1
@@ -45,18 +54,22 @@ class Trie:
 
 
     def dump(self):
-        stringBuilder  = []
+        stringBuilder = []
         for letter in sorted(self.nodes):
-            node = self.nodes[letter]
-            if node.getNumWords():
-                print "%s %d" % (letter, node.getNumWords())
-            if node.hasChild()
-                stringBuilder
-                node.dump(stringBuilder)
+            stringBuilder.append(letter)
+            node = self.nodes[letter].dump(stringBuilder)
+            stringBuilder.pop()
 
-        for letter, node in self.nodes.items:
-            #for node.co
-
-
-
+myTrie = Trie()
+myTrie.addWord('a')
+myTrie.addWord('a')
+myTrie.addWord('a')
+myTrie.addWord('estro')
+myTrie.addWord('estro')
+myTrie.addWord('estroso')
+myTrie.addWord('any')
+myTrie.addWord('anything')
+myTrie.addWord('ab')
+myTrie.addWord('est')
+myTrie.dump()
 
